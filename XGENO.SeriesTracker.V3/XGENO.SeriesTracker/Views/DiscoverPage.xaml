@@ -1,0 +1,334 @@
+﻿<Page
+    x:Class="XGENO.SeriesTracker.Views.DiscoverPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:XGENO.SeriesTracker.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:XGENO.SeriesTracker.ViewModels" 
+    xmlns:dm="using:XGENO.SeriesTracker.DataModels"
+    xmlns:fwComposition="using:XGENO.UWP.Controls.Composition"
+    xmlns:fwExtensions="using:XGENO.Framework.Extensions"
+    xmlns:fwRating="using:XGENO.UWP.Controls.RatingControl"
+    xmlns:fwGrid="using:XGENO.UWP.Controls.ResponsiveGrid"
+    xmlns:fwCoverFlow="using:XGENO.UWP.Controls.CoverFlow"
+    xmlns:fwButton="using:XGENO.UWP.Controls.FWButton"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:fwImage="using:XGENO.UWP.Controls.Images"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:DiscoverPageViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/HubStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid x:Name="RootPanel">
+
+        <Hub x:Name="SeriesHub" Header="" Margin="0,40,0,0" Orientation="Vertical" DataContext="{x:Bind}" Visibility="{x:Bind local:Converters.IsVisible(ViewModel.DataLoaded), Mode=OneWay}">
+
+            <HubSection Header=" " Height="400" IsHeaderInteractive="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <DataTemplate x:DataType="local:DiscoverPage">
+                    <RelativePanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <fwCoverFlow:CoverFlow x:Name="crShows"
+                                               Scale="0.75"
+                                               RotationAngle="0"
+                                               SpaceBetweenItems="450"
+                                               SpaceBetweenSelectedItemAndItems="72"
+                                               Margin="0,0,0,0"
+                                               ItemsSource="{x:Bind ViewModel.HeroShows, Mode=OneWay}"
+                                               RelativePanel.AlignBottomWithPanel="True"
+                                               RelativePanel.AlignLeftWithPanel="True"
+                                               RelativePanel.AlignRightWithPanel="True"
+                                               RelativePanel.AlignTopWithPanel="True">
+
+                            <fwCoverFlow:CoverFlow.ItemTemplate>
+                                <DataTemplate x:DataType="dm:Show">
+                                    <RelativePanel x:Name="pnlShow" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="350" Width="580">
+
+                                        <!-- Panel for Show Details -->
+                                        <RelativePanel x:Name="pnlSection" 
+                                                       Margin="0,28,0,0"
+                                                       RelativePanel.AlignLeftWithPanel="True"
+                                                       RelativePanel.AlignRightWithPanel="True"
+                                                       RelativePanel.AlignTopWithPanel="True"
+                                                       RelativePanel.AlignBottomWithPanel="True" 
+                                                       Background="#CC414141">
+
+                                            <!-- Show Name and Rating -->
+                                            <RelativePanel x:Name="pnlTopBar"
+                                                           Height="60"
+                                                           Margin="240,16,24,0"
+                                                           RelativePanel.AlignTopWithPanel="True"
+                                                           RelativePanel.AlignLeftWithPanel="True"
+                                                           RelativePanel.AlignRightWithPanel="True">
+
+                                                <!-- Show Name -->
+                                                <TextBlock x:Name="txtShowName"
+                                                           Margin="0,0,0,0"
+                                                           RelativePanel.AlignTopWithPanel="True"
+                                                           RelativePanel.AlignLeftWithPanel="True"
+                                                           Text="{x:Bind ShowTitle}"
+                                                           Style="{StaticResource BasicTextBlockStyle}"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           FontSize="24"/>
+
+                                                <!-- Rating Info -->
+                                                <fwRating:Rating x:Name="rtShowRating"
+                                                                 Maximum="5"
+                                                                 ItemHeight="16"
+                                                                 ItemPadding="4"
+                                                                 StepFrequency=".1"
+                                                                 IsInteractive="False"
+                                                                 Value="{x:Bind ShowRating05}"
+                                                                 HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                                 Margin="0,4,0,0"
+                                                                 RelativePanel.AlignLeftWithPanel="True"
+                                                                 RelativePanel.Below="txtShowName" />
+
+                                                <TextBlock Text="{x:Bind RatingDisplay}"
+                                                           Style="{StaticResource BasicTextBlockStyle}"
+                                                           FontSize="12"
+                                                           RelativePanel.Below="txtShowName"
+                                                           RelativePanel.RightOf="rtShowRating"
+                                                           Margin="10,4,0,0" />
+
+                                            </RelativePanel>
+
+
+                                            <!-- Show Overview -->
+                                            <TextBlock x:Name="txtShowOverview"
+                                                       Margin="240,8,24,8"
+                                                       RelativePanel.Below="pnlTopBar"
+                                                       RelativePanel.Above="pnlBottomBar"
+                                                       RelativePanel.AlignLeftWithPanel="True"
+                                                       RelativePanel.AlignRightWithPanel="True"
+                                                       Text="{x:Bind overview}"
+                                                       Style="{StaticResource PageBodyTextBlockStyle}"
+                                                       TextTrimming="WordEllipsis"
+                                                       VerticalAlignment="Bottom"
+                                                       LineHeight="18"
+                                                       LineStackingStrategy="BlockLineHeight" />
+
+
+                                            <!-- Other Information -->
+                                            <RelativePanel x:Name="pnlBottomBar"
+                                                           Height="60"
+                                                           Margin="24,0,24,0"
+                                                           RelativePanel.AlignBottomWithPanel="True"
+                                                           RelativePanel.AlignRightWithPanel="True"
+                                                           RelativePanel.AlignLeftWithPanel="True">
+
+                                                <!-- Line / Seperator -->
+                                                <Rectangle Fill="#33CCCCCC" Height="1"
+                                                           Margin="212,0,0,0"
+                                                           RelativePanel.AlignTopWithPanel="True"
+                                                           RelativePanel.AlignLeftWithPanel="True"
+                                                           RelativePanel.AlignRightWithPanel="True" />
+
+
+                                                <!-- Add Show Button -->
+                                                <fwButton:FWButton x:Name="btnAddShow"
+                                                                   Width="36"
+                                                                   Height="36"
+                                                                   Margin="0,0,8,12"
+                                                                   Background="#1976D2"
+                                                                   Foreground="White"
+                                                                   IconForeground="White"
+                                                                   IconPosition="OnlyIcon"
+                                                                   IconSize="16"
+                                                                   PointerOverBackground="#661976D2"
+                                                                   PressedBackground="#009688"
+                                                                   Command="{Binding DataContext.StartTrackingShowCommand, ElementName=RootPanel, Mode=OneWay}"
+                                                                   CommandParameter="{x:Bind}"
+                                                                   Visibility="{x:Bind local:Converters.ReverseVisible(IsTracking), Mode=OneWay}"
+                                                                   ToolTipService.ToolTip="ADD TO MY WATCHLIST"
+                                                                   RelativePanel.AlignBottomWithPanel="True"
+                                                                   RelativePanel.LeftOf="btnShowInfo">
+                                                    <fwButton:FWButton.Icon>
+                                                        <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf067;" />
+                                                    </fwButton:FWButton.Icon>
+                                                </fwButton:FWButton>
+
+
+                                                <!-- Show Info Button -->
+                                                <fwButton:FWButton x:Name="btnShowInfo"
+                                                                   Width="36"
+                                                                   Height="36"
+                                                                   Margin="0,0,0,12"
+                                                                   Background="#0288d1"
+                                                                   Foreground="White"
+                                                                   IconForeground="White"
+                                                                   IconPosition="OnlyIcon"
+                                                                   IconSize="16"
+                                                                   PointerOverBackground="#AA0288d1"
+                                                                   PressedBackground="#009688"
+                                                                   Command="{Binding DataContext.NavigateToShowPage2Command, ElementName=RootPanel, Mode=OneWay}"
+                                                                   CommandParameter="{x:Bind}"
+                                                                   ToolTipService.ToolTip="SHOW DETAILS"
+                                                                   RelativePanel.AlignBottomWithPanel="True"
+                                                                   RelativePanel.AlignRightWithPanel="True">
+                                                    <fwButton:FWButton.Icon>
+                                                        <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf129;" />
+                                                    </fwButton:FWButton.Icon>
+                                                </fwButton:FWButton>
+
+
+                                                <!-- Status and Network Info -->
+                                                <TextBlock x:Name="txtNetworkStatus"
+                                                           Margin="6,0,8,0"
+                                                           RelativePanel.AlignTopWithPanel="True"
+                                                           RelativePanel.AlignBottomWithPanel="True"
+                                                           RelativePanel.AlignLeftWithPanel="True"
+                                                           RelativePanel.LeftOf="btnAddShow"
+                                                           VerticalAlignment="Center"
+                                                           Text="{x:Bind NetworkAndStatusDisplay}"
+                                                           Style="{StaticResource BasicTextBlockStyle}"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           FontSize="18"/>
+
+                                            </RelativePanel>
+
+                                        </RelativePanel>
+
+                                        <!-- Show Poster -->
+                                        <fwImage:ImageEx x:Name="imgPoster"
+                                                         ImageStretch="UniformToFill"
+                                                         Margin="24,0,0,0"
+                                                 Width="200"
+                                                 Height="294"
+                                                 ImageSource="{x:Bind PosterImage}"
+                                                 RelativePanel.AlignLeftWithPanel="True"
+                                                 RelativePanel.AlignTopWithPanel="True" />
+
+                                    </RelativePanel>
+                                </DataTemplate>
+                            </fwCoverFlow:CoverFlow.ItemTemplate>
+
+                        </fwCoverFlow:CoverFlow>
+                    </RelativePanel>
+                </DataTemplate>
+            </HubSection>
+
+            <HubSection Header="    RECOMMENDED" IsHeaderInteractive="False" HorizontalContentAlignment="Stretch">
+                <DataTemplate x:DataType="local:DiscoverPage">
+                    <fwGrid:ResponsiveGridView x:Name="grdShows"
+                                               HorizontalAlignment="Stretch"
+                                               ItemsSource="{x:Bind ViewModel.Shows, Mode=OneWay}"
+                                               SelectionMode="None"
+                                               IsItemClickEnabled="True"
+                                               Margin="0,8,0,0"
+                                               DesiredWidth="230"
+                                               DesiredHeight="400">
+
+                        <fwGrid:ResponsiveGridView.ItemContainerStyle>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalAlignment" Value="Stretch" />
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Padding" Value="8" />
+                            </Style>
+                        </fwGrid:ResponsiveGridView.ItemContainerStyle>
+
+                        <fwGrid:ResponsiveGridView.ItemTemplate>
+                            <DataTemplate x:DataType="dm:Show">
+                                <RelativePanel x:Name="pnlShow" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+                                    <!-- Bottom Bar -->
+                                    <RelativePanel x:Name="pnlBottoomBar"
+                                                   Height="68"
+                                                   Margin="0,0"
+                                                   RelativePanel.AlignBottomWithPanel="True"
+                                                   RelativePanel.AlignLeftWithPanel="True"
+                                                   RelativePanel.AlignRightWithPanel="True">
+
+                                        <!-- Add Show Button -->
+                                        <fwButton:FWButton x:Name="btnAddShow"
+                                                           Width="40"
+                                                           Height="40"
+                                                           Margin="8,12,0,0"
+                                                           Background="#00796B"
+                                                           Foreground="White"
+                                                           IconForeground="White"
+                                                           IconPosition="OnlyIcon"
+                                                           IconSize="20"
+                                                           PointerOverBackground="#AA00796b"
+                                                           PressedBackground="#009688"
+                                                           Command="{Binding DataContext.StartTrackingShowCommand, ElementName=RootPanel, Mode=OneWay}"
+                                                           CommandParameter="{x:Bind}"
+                                                           Visibility="{x:Bind local:Converters.ReverseVisible(IsTracking), Mode=OneWay}"
+                                                           ToolTipService.ToolTip="ADD TO MY WATCHLIST"
+                                                           RelativePanel.AlignTopWithPanel="True"
+                                                           RelativePanel.AlignRightWithPanel="True">
+                                            <fwButton:FWButton.Icon>
+                                                <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf067;" />
+                                            </fwButton:FWButton.Icon>
+                                        </fwButton:FWButton>
+
+                                        <!-- Show Popularity -->
+                                        <TextBlock x:Name="txtShowStatus" 
+                                                   Text="{x:Bind ShowPopularity}"
+                                                   Style="{StaticResource BasicTextBlockStyle}"
+                                                   HorizontalAlignment="Left" 
+                                                   VerticalAlignment="Top"
+                                                   Margin="0,16,0,0"
+                                                   RelativePanel.AlignTopWithPanel="True"
+                                                   RelativePanel.AlignLeftWithPanel="True"
+                                                   RelativePanel.LeftOf="btnAddShow"
+                                                   Foreground="#ffc107"
+                                                   FontSize="12" />
+
+
+                                        <!-- Show Name -->
+                                        <TextBlock x:Name="txtShowName"
+                                                   Margin="0,0,0,0"
+                                                   RelativePanel.LeftOf="btnAddShow"
+                                                   RelativePanel.Below="txtShowStatus"
+                                                   RelativePanel.AlignLeftWithPanel="True"
+                                                   Text="{x:Bind ShowTitle}"
+                                                   Style="{StaticResource BasicTextBlockStyle}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Foreground="White"
+                                                   FontSize="16"/>
+
+                                    </RelativePanel>
+
+                                    <!-- Poster Image -->
+                                    <fwComposition:CompositionShadow BlurRadius="10" ShadowOpacity=".7" OffsetX="4" OffsetY="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.Above="pnlBottoomBar">
+                                        <Border Background="Transparent" BorderThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                            <fwImage:ImageEx x:Name="imgPoster"
+                                                     ImageStretch="UniformToFill"
+                                                     ImageSource="{x:Bind PosterImage}"
+                                                     VerticalAlignment="Stretch" 
+                                                     HorizontalAlignment="Stretch"  />
+                                        </Border>
+                                    </fwComposition:CompositionShadow>
+                                                           
+                                </RelativePanel>
+                            </DataTemplate>
+                        </fwGrid:ResponsiveGridView.ItemTemplate>
+
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="ItemClick">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToShowPageCommand, Mode=OneWay}" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </fwGrid:ResponsiveGridView>
+
+                </DataTemplate>
+            </HubSection>
+
+
+        </Hub>
+
+    </Grid>
+</Page>

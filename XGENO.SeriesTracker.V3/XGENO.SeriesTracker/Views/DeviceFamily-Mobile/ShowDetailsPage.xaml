@@ -1,0 +1,1197 @@
+﻿<Page
+    x:Class="XGENO.SeriesTracker.Views.ShowDetailsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:XGENO.SeriesTracker.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:XGENO.SeriesTracker.ViewModels"
+    xmlns:dm="using:XGENO.SeriesTracker.DataModels"
+    xmlns:fwComposition="using:XGENO.UWP.Controls.Composition"
+    xmlns:fwExtensions="using:XGENO.Framework.Extensions"
+    xmlns:fwControls="using:XGENO.Framework.Controls"
+    xmlns:fwRating="using:XGENO.UWP.Controls.RatingControl"
+    xmlns:fwGrid="using:XGENO.UWP.Controls.ResponsiveGrid"
+    xmlns:fwButton="using:XGENO.UWP.Controls.FWButton"
+    xmlns:fwImage="using:XGENO.UWP.Controls.Images"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:fwActions="using:XGENO.Framework.Behaviors"
+    mc:Ignorable="d">
+
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <!-- TextBlock Styles -->
+            <Style x:Key="DisplayStyle" TargetType="TextBlock" BasedOn="{StaticResource BasicTextBlockStyle}">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Foreground" Value="#DDFFFFFF" />
+            </Style>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/GridViewGroupedHeaderMobileStyles.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/PivotMobileStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Page.DataContext>
+        <vm:ShowDetailsPageViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <Grid x:Name="RootPanel">
+        <Grid.Resources>
+            <CollectionViewSource x:Name="grpEpisodes" IsSourceGrouped="true" ItemsPath="Episodes" Source="{x:Bind ViewModel.EpisodesGroup, Mode=OneWay}" />
+        </Grid.Resources>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="TabletLayoutBig">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="imgWideBackground.Height" Value="300" />
+                        <!--<Setter Target="txtVisualHint.Text" Value="TabletLayoutBig" />
+                        <Setter Target="pnlMain.Width" Value="700" />
+                        <Setter Target="pnlMain.VerticalAlignment" Value="Stretch" />
+                        <Setter Target="pnlShowDetails.CornerRadius" Value="0,0,12,12" />
+                        <Setter Target="imgPosterWide.Width" Value="700" />
+                        <Setter Target="imgPosterWide.Height" Value="466" />
+                        <Setter Target="imgPosterWide.Visibility" Value="Visible" />
+                        <Setter Target="pnlShowDetails.Margin" Value="12,0,12,0" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.AlignRightWithPanel)" Value="True" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.AlignLeftWithPanel)" Value="True" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.AlignBottomWithPanel)" Value="True" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.Below)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignRightWith)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignTopWith)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignLeftWith)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignBottomWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignRightWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignTopWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignLeftWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignBottomWith)" Value="imgPosterWide" />
+                        <Setter Target="brdCertificationDesktop.Padding" Value="8" />-->
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="TabletLayoutMediumBig">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="400" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="imgWideBackground.Height" Value="220" />
+                        <!--<Setter Target="txtVisualHint.Text" Value="TabletLayoutBig" />
+                        <Setter Target="pnlMain.Width" Value="700" />
+                        <Setter Target="pnlMain.VerticalAlignment" Value="Stretch" />
+                        <Setter Target="pnlShowDetails.CornerRadius" Value="0,0,12,12" />
+                        <Setter Target="imgPosterWide.Width" Value="700" />
+                        <Setter Target="imgPosterWide.Height" Value="466" />
+                        <Setter Target="imgPosterWide.Visibility" Value="Visible" />
+                        <Setter Target="pnlShowDetails.Margin" Value="12,0,12,0" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.AlignRightWithPanel)" Value="True" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.AlignLeftWithPanel)" Value="True" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.AlignBottomWithPanel)" Value="True" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.Below)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignRightWith)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignTopWith)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignLeftWith)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignBottomWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignRightWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignTopWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignLeftWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignBottomWith)" Value="imgPosterWide" />
+                        <Setter Target="brdCertificationDesktop.Padding" Value="8" />-->
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="TabletLayoutMedium">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="350" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="imgWideBackground.Height" Value="200" />
+                        <!--<Setter Target="txtVisualHint.Text" Value="TabletLayoutBig" />
+                        <Setter Target="pnlMain.Width" Value="700" />
+                        <Setter Target="pnlMain.VerticalAlignment" Value="Stretch" />
+                        <Setter Target="pnlShowDetails.CornerRadius" Value="0,0,12,12" />
+                        <Setter Target="imgPosterWide.Width" Value="700" />
+                        <Setter Target="imgPosterWide.Height" Value="466" />
+                        <Setter Target="imgPosterWide.Visibility" Value="Visible" />
+                        <Setter Target="pnlShowDetails.Margin" Value="12,0,12,0" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.AlignRightWithPanel)" Value="True" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.AlignLeftWithPanel)" Value="True" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.AlignBottomWithPanel)" Value="True" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.Below)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignRightWith)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignTopWith)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignLeftWith)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignBottomWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignRightWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignTopWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignLeftWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignBottomWith)" Value="imgPosterWide" />
+                        <Setter Target="brdCertificationDesktop.Padding" Value="8" />-->
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="TabletLayoutSmall">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="imgWideBackground.Height" Value="180" />
+
+                        <!--<Setter Target="txtVisualHint.Text" Value="TabletLayoutSmall" />
+                        <Setter Target="pnlMain.Width" Value="500" />
+                        <Setter Target="pnlMain.VerticalAlignment" Value="Stretch" />
+                        <Setter Target="pnlShowDetails.CornerRadius" Value="0,0,12,12" />
+                        <Setter Target="imgPosterWide.Width" Value="500" />
+                        <Setter Target="imgPosterWide.Height" Value="333" />
+                        <Setter Target="imgPosterWide.Visibility" Value="Visible" />
+                        <Setter Target="pnlShowDetails.Margin" Value="12,0,12,0" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.AlignRightWithPanel)" Value="True" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.AlignLeftWithPanel)" Value="True" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.AlignBottomWithPanel)" Value="True" />
+                        <Setter Target="pnlShowDetails.(RelativePanel.Below)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignRightWith)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignTopWith)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignLeftWith)" Value="imgPosterWide" />
+                        <Setter Target="btnPlay.(RelativePanel.AlignBottomWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignRightWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignTopWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignLeftWith)" Value="imgPosterWide" />
+                        <Setter Target="stkButtonsPanel.(RelativePanel.AlignBottomWith)" Value="imgPosterWide" />
+                        <Setter Target="brdCertificationDesktop.Padding" Value="8" />-->
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <TextBlock x:Name="txtVisualHint" Style="{StaticResource  DisplayStyle}" Visibility="Collapsed" />
+
+        <RelativePanel x:Name="pnlMain"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       MaxWidth="600"
+                       Background="Transparent"
+                       Margin="0,46,0,0">
+            <!-- Visibility="{x:Bind local:Converters.IsVisible(ViewModel.DataLoaded), Mode=OneWay}" -->
+
+
+            <!-- Wide Poster Image -->
+            <fwImage:ImageEx x:Name="imgWideBackground" ImageStretch="UniformToFill"
+                             ImageSource="{x:Bind ViewModel.TheShow.BackgroundImage, Mode=OneWay}"
+                             HorizontalAlignment="Stretch"
+                             Height="220"
+                             RelativePanel.AlignRightWithPanel="True"
+                             RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignTopWithPanel="True" />
+
+            <!-- Play Button -->
+            <fwButton:FWButton x:Name="btnPlay"
+                               Width="48"
+                               Height="48"
+                               Background="#DD333333"
+                               BorderThickness="1"
+                               BorderBrush="#E5E5E5"
+                               Foreground="White"
+                               IconForeground="White"
+                               IconPosition="OnlyIcon"
+                               IconSize="30"
+                               PointerOverBackground="#AA666666"
+                               PressedBackground="#AA00796b"
+                               Command="{x:Bind ViewModel.StartPlayingCommand, Mode=OneWay}"
+                               Visibility="{x:Bind local:Converters.IsVisible(ViewModel.CanPlay), Mode=OneWay}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               RelativePanel.AlignLeftWith="imgWideBackground"
+                               RelativePanel.AlignTopWith="imgWideBackground"
+                               RelativePanel.AlignBottomWith="imgWideBackground"
+                               RelativePanel.AlignRightWith="imgWideBackground">
+                <fwButton:FWButton.Icon>
+                    <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf04B;" Margin="3,0,0,0" />
+                </fwButton:FWButton.Icon>
+            </fwButton:FWButton>
+
+            <!-- Button Panel -->
+            <StackPanel x:Name="stkButtonsPanel" 
+                        Orientation="Horizontal" 
+                        Margin="8" 
+                        RelativePanel.AlignTopWith="imgWideBackground" 
+                        RelativePanel.AlignRightWith="imgWideBackground"
+                        Visibility="{x:Bind local:Converters.IsVisible(ViewModel.DataLoaded), Mode=OneWay}">
+
+                <!-- Trakt URL -->
+                <fwButton:FWButton x:Name="btnVisitTrakt"
+                                 Width="40"
+                                 Height="40"
+                                 Margin="8,0,0,0"
+                                 Background="#D32F2F"
+                                 Foreground="White"
+                                 IconForeground="White"
+                                 IconPosition="OnlyIcon"
+                                 IconSize="18"
+                                 PointerOverBackground="#66D32F2F"
+                                 PressedBackground="#232323"
+                                 Command="{x:Bind ViewModel.VisitTraktPage, Mode=OneWay}"
+                                 ToolTipService.ToolTip="VIEW ON TRAKT.TV"
+                                 RelativePanel.AlignTopWithPanel="True"
+                                 RelativePanel.AlignRightWithPanel="True">
+                    <fwButton:FWButton.Icon>
+                        <BitmapIcon UriSource="ms-appx:///Assets/Trakt.png"/>
+                    </fwButton:FWButton.Icon>
+                </fwButton:FWButton>
+
+                <!-- IMDB URL -->
+                <fwButton:FWButton x:Name="btnVisitIMDB"
+                                 Width="40"
+                                 Height="40"
+                                 Margin="8,0,0,0"
+                                 Background="#FBC02D"
+                                 Foreground="White"
+                                 IconForeground="White"
+                                 IconPosition="OnlyIcon"
+                                 IconSize="18"
+                                 PointerOverBackground="#AAFBC02D"
+                                 PressedBackground="#FFEB3B"
+                                 Command="{x:Bind ViewModel.VisitIMDBPage, Mode=OneWay}"
+                                 ToolTipService.ToolTip="VIEW ON IMDB"
+                                 RelativePanel.AlignTopWithPanel="True"
+                                 RelativePanel.AlignRightWithPanel="True">
+                    <fwButton:FWButton.Icon>
+                        <BitmapIcon UriSource="ms-appx:///Assets/IMDB.png"/>
+                    </fwButton:FWButton.Icon>
+                </fwButton:FWButton>
+
+                <!-- Start show Tracking Button -->
+                <fwButton:FWButton x:Name="btnAddShow"
+                                 Width="40"
+                                 Height="40"
+                                 Margin="8,0,0,0"
+                                 Background="#00796B"
+                                 Foreground="White"
+                                 IconForeground="White"
+                                 IconPosition="OnlyIcon"
+                                 IconSize="18"
+                                 PointerOverBackground="#AA00796b"
+                                 PressedBackground="#009688"
+                                 Command="{x:Bind ViewModel.StartTrackingShow2Command, Mode=OneWay}"
+                                 Visibility="{x:Bind local:Converters.ReverseVisible(ViewModel.IsTracking), Mode=OneWay}"
+                                 ToolTipService.ToolTip="ADD TO MY WATCHLIST"
+                                 RelativePanel.AlignTopWithPanel="True"
+                                 RelativePanel.AlignRightWithPanel="True">
+                    <fwButton:FWButton.Icon>
+                        <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf067;" />
+                    </fwButton:FWButton.Icon>
+                </fwButton:FWButton>
+
+            </StackPanel>
+
+            <!-- Show Name -->
+          <TextBlock x:Name="txtShowName"
+                     Text="{x:Bind ViewModel.TheShow.ShowTitle, Mode=OneWay}"
+                     Style="{StaticResource DisplayStyle}"
+                     FontSize="22"
+                     TextTrimming="CharacterEllipsis"
+                     RelativePanel.AlignLeftWith="imgWideBackground"
+                                       RelativePanel.AlignRightWith="imgWideBackground"
+                                       RelativePanel.Above="pnlRatingInfo"
+                                       Margin="8,0,8,-4"
+                     HorizontalAlignment="Stretch"/>
+
+          <!-- Show Rating -->
+            <RelativePanel x:Name="pnlRatingInfo" 
+                           RelativePanel.AlignLeftWith="imgWideBackground"
+                           RelativePanel.AlignBottomWith="imgWideBackground"
+                           Margin="8,0,0,4">
+                <fwRating:Rating x:Name="rtShowRating"
+                                                   Maximum="5"
+                                                   ItemHeight="12"
+                                                   ItemPadding="3"
+                                                   StepFrequency=".1"
+                                                   IsInteractive="False"
+                                                   Value="{x:Bind ViewModel.TheShow.ShowRating05}"
+                                                   HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                   RelativePanel.AlignBottomWithPanel="True"
+                                                   RelativePanel.AlignTopWithPanel="True"
+                                                   RelativePanel.AlignLeftWithPanel="True"                                                   
+                                                   Margin="0,0,6,0" />
+
+                <TextBlock x:Name="txtRatingDisplay"
+                                   Text="{x:Bind ViewModel.TheShow.RatingDisplay}"
+                                   Style="{StaticResource DisplayStyle}"
+                                   FontSize="12"
+                                   VerticalAlignment="Top"
+                                   RelativePanel.AlignBottomWithPanel="True"
+                                   RelativePanel.AlignTopWithPanel="True"
+                                   RelativePanel.RightOf="rtShowRating" />
+            </RelativePanel>
+
+
+            <!-- Pivot Control -->
+            <Pivot x:Name="pvtMain"
+                   Margin="-6,6,-6,0"
+                   RelativePanel.AlignRightWithPanel="True"
+                   RelativePanel.AlignLeftWithPanel="True"
+                   RelativePanel.AlignBottomWithPanel="True"
+                   RelativePanel.Below="imgWideBackground">
+
+                <PivotItem Header="INFO">
+                    <ScrollViewer VerticalScrollMode="Enabled" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,12,0,0">
+
+
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+
+                            <!-- Show Basic Details -->
+                            <RelativePanel x:Name="pnlShowBasicDetails" HorizontalAlignment="Stretch">
+
+                                <!-- Certification  -->
+                                <Border x:Name="brdCertificationDesktop"
+                                    BorderThickness="1"
+                                    BorderBrush="#99AAAAAA"
+                                    Padding="8,4,8,4"
+                                    RelativePanel.AlignTopWithPanel="True"
+                                    RelativePanel.AlignLeftWithPanel="True"
+                                    RelativePanel.AlignBottomWithPanel="True">
+
+                                    <TextBlock Style="{StaticResource DisplayStyle}"
+                                                   FontSize="14"
+                                                   Text="{x:Bind ViewModel.TheShow.ShowCertification, Mode=OneWay}"
+                                                   FontWeight="Bold"
+                                                   VerticalAlignment="Center" />
+                                </Border>
+
+                                <!-- Other Basic Details -->
+                                <RelativePanel x:Name="pnlStatusAirEpisodeInfo"
+                                           Margin="8,0,0,0"
+                                           RelativePanel.AlignTopWithPanel="True"
+                                           RelativePanel.AlignRightWithPanel="True"
+                                           RelativePanel.AlignBottomWithPanel="True"
+                                           RelativePanel.RightOf="brdCertificationDesktop">
+
+                                    <StackPanel x:Name="pnlStatusAndNetwork" 
+                                          Margin="0,-2,0,0"
+                                          Orientation="Horizontal"
+                                          RelativePanel.AlignTopWithPanel="True"
+                                          RelativePanel.AlignLeftWithPanel="True"
+                                          RelativePanel.AlignRightWithPanel="True">
+
+                                        <!-- Show Year -->
+                                        <TextBlock x:Name="txtShowYear"
+                                                       Text="{x:Bind ViewModel.TheShow.SinceYear, Mode=OneWay}"
+                                                       Style="{StaticResource DisplayStyle}"
+                                                       FontSize="13"
+                                                       VerticalAlignment="Top" />
+
+                                        <!-- Seperator -->
+                                        <TextBlock Margin="6,0"
+                                                       Text="ӏ"
+                                                       Style="{StaticResource DisplayStyle}"
+                                                       FontSize="13"
+                                                       VerticalAlignment="Top" />
+
+
+                                        <!-- Show Network Info -->
+                                        <TextBlock x:Name="txtShowNetwork"
+                                                       Text="{x:Bind ViewModel.TheShow.NetworkInfo, Mode=OneWay}"
+                                                       Style="{StaticResource DisplayStyle}"
+                                                       FontSize="13"
+                                                       VerticalAlignment="Top" />
+
+                                        <!-- Seperator -->
+                                        <TextBlock Margin="6,0"
+                                                       Text="ӏ"
+                                                       Style="{StaticResource DisplayStyle}"
+                                                       FontSize="13"
+                                                       VerticalAlignment="Top" />
+
+                                        <!-- Show Status -->
+                                        <TextBlock x:Name="txtShowStatus"
+                                                       Text="{x:Bind ViewModel.TheShow.ShowStatus, Mode=OneWay}"
+                                                       Style="{StaticResource DisplayStyle}"
+                                                       FontSize="13"
+                                                       VerticalAlignment="Top" />
+
+
+
+                                    </StackPanel>
+
+                                    <StackPanel x:Name="pnlEpisodeInfo"
+                                          Margin="0,0,0,-3"
+                                          Orientation="Horizontal"
+                                          RelativePanel.AlignBottomWithPanel="True"
+                                          RelativePanel.AlignLeftWithPanel="True"
+                                          RelativePanel.AlignRightWithPanel="True">
+
+                                        <!-- Episode Length -->
+                                        <TextBlock x:Name="txtEpisodeLength"
+                                                       Text="{x:Bind ViewModel.TheShow.EpisodeLengthInMins, Mode=OneWay}"
+                                                       Style="{StaticResource DisplayStyle}"
+                                                       FontSize="13"
+                                                       VerticalAlignment="Bottom" />
+
+                                        <!-- Seperator -->
+                                        <TextBlock Margin="6,0"
+                                                       Text="ӏ"
+                                                       Style="{StaticResource DisplayStyle}"
+                                                       FontSize="13"
+                                                       VerticalAlignment="Top" />
+
+
+                                        <!-- Show Air Info -->
+                                        <TextBlock x:Name="txtAirInfo"
+                                                       Text="{x:Bind ViewModel.TheShow.AirsOn, Mode=OneWay}"
+                                                       Style="{StaticResource DisplayStyle}"
+                                                       FontSize="13"
+                                                       VerticalAlignment="Bottom" />
+
+                                    </StackPanel>
+
+                                </RelativePanel>
+
+                            </RelativePanel>
+
+                            <!-- SYNOPSIS Header -->
+                            <TextBlock Style="{StaticResource DisplayStyle}"
+                                           FontSize="18"
+                                           Margin="0,20,0,0">
+                                    <Underline>
+                                        <Run Text="SYNOPSIS" />
+                                    </Underline>
+                            </TextBlock>
+
+                            <!-- Show Overview -->
+                            <TextBlock Text="{x:Bind ViewModel.TheShow.overview, Mode=OneWay}"
+                                           Style="{StaticResource DisplayStyle}"
+                                           FontSize="12"
+                                           TextAlignment="Justify"
+                                           TextWrapping="WrapWholeWords"
+                                           Margin="0,6,0,0"
+                                           Padding="0,0,4,0"
+                                           LineHeight="16"
+                                           LineStackingStrategy="BlockLineHeight" />
+
+                            <GridView x:Name="grdGenres"
+                                          ItemsSource="{x:Bind ViewModel.TheShow.ShowGenres, Mode=OneWay}"
+                                          SelectionMode="None"
+                                          IsItemClickEnabled="False"
+                                          Margin="0,14,0,0">
+
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                                        <Setter Property="Margin" Value="0" />
+                                        <Setter Property="Padding" Value="4" />
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+
+                                <GridView.ItemTemplate>
+                                    <DataTemplate x:DataType="x:String">
+                                        <RelativePanel Width="140" Height="30" BorderBrush="#99AAAAAA" BorderThickness="1">
+                                            <TextBlock Text="{x:Bind}"
+                                                   Style="{StaticResource DisplayStyle}"
+                                                   FontSize="12"
+                                                   Margin="4,6"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"
+                                                   RelativePanel.AlignBottomWithPanel="True"
+                                                   RelativePanel.AlignLeftWithPanel="True"
+                                                   RelativePanel.AlignRightWithPanel="True"
+                                                   RelativePanel.AlignTopWithPanel="True" />
+                                        </RelativePanel>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </PivotItem>
+
+                <PivotItem Header="SEASONS">
+                    <ListView x:Name="lstEpisodes"
+                                  ItemsSource="{x:Bind grpEpisodes.View, Mode=OneWay}"
+                                  SelectionMode="None"
+                                  IsItemClickEnabled="False"
+                                  HorizontalAlignment="Stretch"
+                                  Margin="0,0,0,0">
+
+                        <ListView.GroupStyle>
+                            <GroupStyle HeaderContainerStyle="{StaticResource ListViewHeaderItemStyleWithNoMargin}">
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate x:DataType="dm:SeasonEpisodeGroup">
+                                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderBrush="#66AAAAAA" BorderThickness="5,0,0,0" Margin="0,0,6,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="48" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Season No -->
+                                            <Grid Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                <TextBlock Style="{StaticResource DisplayStyle}"
+                                                               Text="{x:Bind Season.SeasonNo}"
+                                                               Foreground="White"
+                                                               FontSize="32"
+                                                               FontWeight="SemiBold"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center" />
+                                            </Grid>
+
+                                            <!-- Other Season Info -->
+                                            <Grid Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="6,4,6,4" >
+                                                    <!-- Season Name & Status -->
+                                                    <TextBlock Style="{StaticResource DisplayStyle}"
+                                                                   Text="{x:Bind Season.SeasonNameWithStatus, Mode=OneWay}"
+                                                                   FontSize="14" />
+
+                                                    <!-- Episode Status -->
+                                                    <TextBlock Style="{StaticResource DisplayStyle}"
+                                                                   Margin="0,0,0,0"
+                                                                   Text="{x:Bind Season.EpisodesStatus, Mode=OneWay}"
+                                                                   FontSize="12" />
+                                                </StackPanel>
+                                            </Grid>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListView.GroupStyle>
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalAlignment" Value="Stretch" />
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Padding" Value="4" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemContainerTransitions>
+                            <TransitionCollection>
+                                <EntranceThemeTransition />
+                            </TransitionCollection>
+                        </ListView.ItemContainerTransitions>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="dm:Episode">
+                                <RelativePanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderBrush="#66AAAAAA" BorderThickness="4,0,0,0">
+
+                                    <!-- Episode Details -->
+                                    <StackPanel Orientation="Vertical"
+                                              RelativePanel.LeftOf="pnlEpisodeButtons"
+                                              RelativePanel.AlignTopWithPanel="True"
+                                              RelativePanel.AlignBottomWithPanel="True"
+                                              RelativePanel.AlignLeftWithPanel="True"
+                                              Margin="8,0,8,0">
+
+                                        <TextBlock Text="{x:Bind EpisodeFullName}"
+                                               Style="{StaticResource DisplayStyle}"
+                                               FontSize="14"
+                                                       HorizontalAlignment="Stretch"
+                                               FontWeight="SemiBold"
+                                               TextTrimming="CharacterEllipsis"/>
+
+                                        <TextBlock Text="{x:Bind AiredDate}"
+                                               Margin="0,0,0,0"
+                                               Style="{StaticResource DisplayStyle}"
+                                               FontSize="12" />
+
+                                    </StackPanel>
+
+                                    <!-- Buttons Panel -->
+                                    <StackPanel x:Name="pnlEpisodeButtons" 
+                                              Orientation="Horizontal"
+                                              VerticalAlignment="Center"
+                                              RelativePanel.AlignTopWithPanel="True"
+                                              RelativePanel.AlignBottomWithPanel="True"
+                                              RelativePanel.AlignRightWithPanel="True"
+                                              Margin="0,0,4,0">
+
+                                        <!-- Mark Unwatched Button -->
+                                        <fwButton:FWButton x:Name="btnMarkUnwatched"
+                                                       VerticalAlignment="Center"
+                                                       Width="40"
+                                                       Height="40"
+                                                       Background="#388e3c"
+                                                       Foreground="White"
+                                                       IconForeground="White"
+                                                       IconPosition="OnlyIcon"
+                                                       IconSize="18"
+                                                       PointerOverBackground="#AA388e3c"
+                                                       PressedBackground="#009688"
+                                                       Command="{Binding DataContext.MarkEpisodeUnwatchedCommand, ElementName=RootPanel, Mode=OneWay}"
+                                                       CommandParameter="{x:Bind}"
+                                                       Visibility="{x:Bind local:Converters.IsVisible(IsWatched), Mode=OneWay}"
+                                                       ToolTipService.ToolTip="MARK AS NOT WATCHED"
+                                                       Margin="0,0,4,0">
+                                            <fwButton:FWButton.Icon>
+                                                <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf070;" />
+                                            </fwButton:FWButton.Icon>
+                                        </fwButton:FWButton>
+
+                                        <!-- Mark Watched Button -->
+                                        <fwButton:FWButton x:Name="btnMarkWatched"
+                                                       VerticalAlignment="Center"
+                                                       Width="40"
+                                                       Height="40"
+                                                       Background="#806D15"
+                                                       Foreground="White"
+                                                       IconForeground="White"
+                                                       IconPosition="OnlyIcon"
+                                                       IconSize="18"
+                                                       PointerOverBackground="#AA388e3c"
+                                                       PressedBackground="#009688"
+                                                       Command="{Binding DataContext.MarkEpisodeWatchedCommand, ElementName=RootPanel, Mode=OneWay}"
+                                                       CommandParameter="{x:Bind}"
+                                                       Visibility="{x:Bind local:Converters.ReverseVisible(IsWatched), Mode=OneWay}"
+                                                       ToolTipService.ToolTip="MARK AS WATCHED"
+                                                       Margin="0,0,4,0">
+                                            <fwButton:FWButton.Icon>
+                                                <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf06e;" />
+                                            </fwButton:FWButton.Icon>
+                                        </fwButton:FWButton>
+
+
+
+                                        <!-- Episode Info Button -->
+                                        <fwButton:FWButton x:Name="btnEpisodeInfo"
+                                                       VerticalAlignment="Center"
+                                                       Width="40"
+                                                       Height="40"
+                                                       Background="#0288d1"
+                                                       Foreground="White"
+                                                       IconForeground="White"
+                                                       IconPosition="OnlyIcon"
+                                                       IconSize="18"
+                                                       PointerOverBackground="#AA0288d1"
+                                                       PressedBackground="#009688"
+                                                       ToolTipService.ToolTip="EPISODE DETAILS">
+
+                                            <fwButton:FWButton.Icon>
+                                                <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf129;" />
+                                            </fwButton:FWButton.Icon>
+
+                                            <fwButton:FWButton.Flyout>
+                                                <Flyout>
+                                                    <Flyout.FlyoutPresenterStyle>
+                                                        <Style TargetType="FlyoutPresenter">
+                                                            <Setter Property="Background" Value="#282828"/>
+                                                            <Setter Property="BorderBrush" Value="#232323"/>
+                                                            <Setter Property="BorderThickness" Value="0"/>
+                                                            <Setter Property="Padding" Value="0"/>
+                                                        </Style>
+                                                    </Flyout.FlyoutPresenterStyle>
+
+                                                    <RelativePanel>
+
+                                                        <RelativePanel Margin="16" Width="250"
+                                                           RelativePanel.AlignBottomWithPanel="True"
+                                                           RelativePanel.AlignLeftWithPanel="True"
+                                                           RelativePanel.AlignRightWithPanel="True"
+                                                           RelativePanel.AlignTopWithPanel="True">
+
+
+                                                            <!-- Episode Image -->
+                                                            <fwImage:ImageEx x:Name="imgEpisodeImage" ImageStretch="UniformToFill"
+                                                               ImageSource="{x:Bind BackgroundImage}"
+                                                               FallbackImageSource="{x:Bind ShowBackgroundImage}"
+                                                               Height="167"
+                                                               Width="250"
+                                                               RelativePanel.AlignLeftWithPanel="True"
+                                                               RelativePanel.AlignTopWithPanel="True"
+                                                               RelativePanel.AlignRightWithPanel="True" />
+
+                                                            <StackPanel Orientation="Vertical" 
+                                                                                HorizontalAlignment="Stretch" 
+                                                                                Margin="0,24,0,0"
+                                                                                RelativePanel.AlignBottomWithPanel="True"
+                                                                                RelativePanel.AlignLeftWithPanel="True"
+                                                                                RelativePanel.AlignRightWithPanel="True"
+                                                                                RelativePanel.Below="imgEpisodeImage">
+
+
+                                                                <!-- Episode Name and No -->
+                                                                <TextBlock Text="{x:Bind EpisodeFullName}"
+                                                             Style="{StaticResource DisplayStyle}"
+                                                             FontSize="14"
+                                                             FontWeight="SemiBold"
+                                                             Foreground="White"
+                                                             TextTrimming="CharacterEllipsis"
+                                                             TextWrapping="WrapWholeWords"
+                                                             HorizontalAlignment="Left"
+                                                             VerticalAlignment="Center" />
+
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <!-- Episode Air Date -->
+                                                                    <TextBlock Text="{x:Bind AiredDate}"
+                                                             Style="{StaticResource DisplayStyle}"
+                                                             FontSize="12"
+                                                             Foreground="White"
+                                                             HorizontalAlignment="Left"
+                                                             VerticalAlignment="Center" />
+
+                                                                    <!-- Seperator -->
+                                                                    <TextBlock Margin="8,0,8,0"
+                                                                               Text="ӏ"
+                                                                               Style="{StaticResource DisplayStyle}"
+                                                                               FontSize="12"
+                                                                               Foreground="White"
+                                                                               VerticalAlignment="Top" />
+
+                                                                    <!-- Episode Runtime -->
+                                                                    <TextBlock Text="{x:Bind EpisodeLength}"
+                                                             Style="{StaticResource DisplayStyle}"
+                                                             FontSize="12"
+                                                             Foreground="White"
+                                                             HorizontalAlignment="Left"
+                                                             VerticalAlignment="Center" />
+                                                                </StackPanel>
+
+
+                                                                <!-- Episode Details -->
+                                                                <TextBlock Text="{x:Bind overview}"
+                                                             Style="{StaticResource DisplayStyle}"
+                                                             FontSize="12"
+                                                             TextAlignment="Justify"
+                                                             Foreground="White"
+                                                             TextWrapping="WrapWholeWords"
+                                                             Margin="0,16,0,0"
+                                                             LineStackingStrategy="BlockLineHeight" />
+
+                                                            </StackPanel>
+
+                                                        </RelativePanel>
+                                                    </RelativePanel>
+                                                </Flyout>
+                                            </fwButton:FWButton.Flyout>
+
+                                        </fwButton:FWButton>
+
+                                    </StackPanel>
+
+                                </RelativePanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                    </ListView>                    
+                </PivotItem>
+
+                <PivotItem Header="COMMENTS">
+                    <ListView x:Name="grdShowComments"
+                                  ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}"
+                                  SelectionMode="None"
+                                  IsItemClickEnabled="False"
+                                  HorizontalAlignment="Stretch"
+                                  Visibility="{x:Bind local:Converters.IsVisible(ViewModel.IsCommentsAvailable), Mode=OneWay}"   
+                                  Margin="0,0,0,0">
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalAlignment" Value="Stretch" />
+                                <Setter Property="Margin" Value="0,0,0,5" />
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="dm:Comment">
+                                <Grid VerticalAlignment="Stretch" 
+                                          HorizontalAlignment="Stretch"
+                                          BorderBrush="#AAAAAAAA" 
+                                          BorderThickness="1">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="30" />
+                                    </Grid.RowDefinitions>
+
+
+                                    <!-- User Avatar -->
+                                    <Border Width="60" Height="60"
+                                                BorderBrush="DarkGray"
+                                                BorderThickness="1"
+                                                Grid.Column="0" Grid.Row="0"
+                                                Grid.RowSpan="3"
+                                                VerticalAlignment="Top" HorizontalAlignment="Left"
+                                                Margin="10,10,0,10">
+                                        <fwImage:ImageEx ImageStretch="UniformToFill"
+                                                             CornerRounding="0"
+                                                             ImageSource="{x:Bind user.Avatar}"
+                                                             FallbackImageSource="ms-appx:///Assets/HeadShot.png"
+                                                             VerticalAlignment="Stretch"
+                                                             HorizontalAlignment="Stretch" />
+                                    </Border>
+
+
+                                    <!-- Comment -->
+                                    <TextBlock Text="{x:Bind comment}"
+                                                   Grid.Column="1" Grid.Row="1"
+                                                   Style="{StaticResource DisplayStyle}"
+                                                   VerticalAlignment="Top" HorizontalAlignment="Stretch"
+                                                   Margin="0,-15,20,0"
+                                                   FontSize="12"
+                                                   TextAlignment="Justify"
+                                                   TextWrapping="WrapWholeWords"
+                                                   LineStackingStrategy="BlockLineHeight" />
+
+                                    <!-- Posted Information -->
+                                    <TextBlock Text="{x:Bind PostedInformation}"
+                                                   Grid.Column="1" Grid.Row="2"
+                                                   Style="{StaticResource DisplayStyle}"
+                                                   VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                                                   Margin="0,5,12,6" LineHeight="12" TextTrimming="CharacterEllipsis"
+                                                   FontSize="12"
+                                                   LineStackingStrategy="BlockLineHeight"
+                                                   FontWeight="SemiBold" />
+
+                                    <!-- Show Rating -->
+                                    <RelativePanel Grid.Column="1" Grid.Row="0"
+                                                       HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                       Margin="0,12,0,0">
+                                        <fwRating:Rating x:Name="rtCommentRating"
+                                                   Maximum="5"
+                                                   ItemHeight="12"
+                                                   ItemPadding="3"
+                                                   StepFrequency=".1"
+                                                   IsInteractive="False"
+                                                   Value="{x:Bind Rating05}"
+                                                   HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                   RelativePanel.AlignBottomWithPanel="True"
+                                                   RelativePanel.AlignTopWithPanel="True"
+                                                   RelativePanel.AlignLeftWithPanel="True"                                                   
+                                                   Margin="0,0,6,0" />
+
+                                        <TextBlock Text="{x:Bind RatingDisplay}"
+                                                       Style="{StaticResource DisplayStyle}"
+                                                       FontSize="12"
+                                                       Margin="0,-1,0,0"
+                                                       VerticalAlignment="Top"
+                                                       RelativePanel.AlignBottomWithPanel="True"
+                                                       RelativePanel.AlignTopWithPanel="True"
+                                                       RelativePanel.RightOf="rtCommentRating" />
+                                    </RelativePanel>
+
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                    </ListView>
+                </PivotItem>
+
+                <PivotItem Header="CAST">
+                    <ListView x:Name="grdShowCasts"
+                                  ItemsSource="{x:Bind ViewModel.Casts, Mode=OneWay}"
+                                  SelectionMode="None"
+                                  IsItemClickEnabled="False"
+                                  HorizontalAlignment="Stretch"
+                                  Visibility="{x:Bind local:Converters.IsVisible(ViewModel.IsCastAvailable), Mode=OneWay}"   
+                                  Margin="0,0,0,0">
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalAlignment" Value="Stretch" />
+                                <Setter Property="Margin" Value="0,0,0,5" />
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="dm:Cast">
+                                <Grid VerticalAlignment="Stretch" 
+                                          HorizontalAlignment="Stretch"
+                                          BorderBrush="#CCCCCCCC" 
+                                          BorderThickness="0">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="50" />
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <!-- Actor Image -->
+                                    <fwImage:RoundedImageEx ImageStretch="UniformToFill"
+                                                         BorderBrush="DarkGray"
+                                                         BorderThickness="1"
+                                                         ImageSource="{x:Bind CastImage}"
+                                                         Width="64" Height="64"
+                                                         FallbackImageSource="ms-appx:///Assets/HeadShot.png"
+                                                         Grid.Column="0" Grid.Row="0"
+                                                         VerticalAlignment="Top" HorizontalAlignment="Left"
+                                                         Margin="8" />
+
+                                    <!-- Cast Details -->
+                                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                        <!-- Actor Name -->
+                                        <TextBlock Text="{x:Bind ActorName}"
+                                                       Style="{StaticResource DisplayStyle}"
+                                                       FontSize="16"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="White" />
+
+                                        <!-- As Character Name -->
+                                        <TextBlock Text="{x:Bind AsCharacterName}"
+                                                   Style="{StaticResource DisplayStyle}"
+                                                   FontSize="12" />
+
+                                    </StackPanel>
+
+                                    <!-- Cast Info Button -->
+                                    <fwButton:FWButton x:Name="btnCastInfo"
+                                                           Grid.Row="0" Grid.Column="2" 
+                                                           Margin="0,0,6,0" 
+                                                           VerticalAlignment="Center" 
+                                                           HorizontalAlignment="Left"
+                                                           Width="44"
+                                                           Height="44"
+                                                           Background="#0288d1"
+                                                           Foreground="White"
+                                                           IconForeground="White"
+                                                           IconPosition="OnlyIcon"
+                                                           IconSize="22"
+                                                           PointerOverBackground="#AA0288d1"
+                                                           PressedBackground="#009688"
+                                                           ToolTipService.ToolTip="ACTOR DETAILS">
+
+                                        <fwButton:FWButton.Icon>
+                                            <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf129;" />
+                                        </fwButton:FWButton.Icon>
+
+                                        <fwButton:FWButton.Flyout>
+                                            <Flyout>
+                                                <Flyout.FlyoutPresenterStyle>
+                                                    <Style TargetType="FlyoutPresenter">
+                                                        <Setter Property="Background" Value="#282828"/>
+                                                        <Setter Property="BorderBrush" Value="#232323"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                        <Setter Property="Padding" Value="0"/>
+                                                    </Style>
+                                                </Flyout.FlyoutPresenterStyle>
+
+                                                <RelativePanel>
+
+                                                    <RelativePanel Margin="16" Width="250" 
+                                                               RelativePanel.AlignBottomWithPanel="True" 
+                                                               RelativePanel.AlignLeftWithPanel="True" 
+                                                               RelativePanel.AlignRightWithPanel="True" 
+                                                               RelativePanel.AlignTopWithPanel="True">
+
+                                                        <!-- Cast Name -->
+                                                        <TextBlock x:Name="txtPersonName" 
+                                                                       Text="{x:Bind ActorName}"
+                                                                       Style="{StaticResource DisplayStyle}"
+                                                                       FontSize="16"
+                                                                       FontWeight="SemiBold"
+                                                                       Foreground="White"
+                                                                       Margin="0,0,0,0"
+                                                                       TextTrimming="CharacterEllipsis"
+                                                                       TextAlignment="Justify"
+                                                                       TextWrapping="WrapWholeWords"
+                                                                       HorizontalAlignment="Left"
+                                                                       VerticalAlignment="Bottom"
+                                                                       RelativePanel.AlignLeftWithPanel="True"
+                                                                       RelativePanel.AlignRightWithPanel="True"
+                                                                       RelativePanel.AlignTopWithPanel="True" />
+
+                                                        <StackPanel Orientation="Vertical" 
+                                                                        HorizontalAlignment="Stretch"
+                                                                        Margin="0,8,0,0"
+                                                                        RelativePanel.AlignBottomWithPanel="True"
+                                                                        RelativePanel.AlignLeftWithPanel="True"
+                                                                        RelativePanel.AlignRightWithPanel="True"
+                                                                        RelativePanel.Below="txtPersonName">
+
+                                                            <!-- Cast Basic Details -->
+                                                            <RelativePanel x:Name="pnlCastBasicDetails" HorizontalAlignment="Stretch">
+
+                                                                <!-- Cast age  -->
+                                                                <Border x:Name="brdCastAge"
+                                                                BorderBrush="White"
+                                                                BorderThickness="1"
+                                                                Padding="6"
+                                                                RelativePanel.AlignTopWithPanel="True"
+                                                                RelativePanel.AlignLeftWithPanel="True"
+                                                                RelativePanel.AlignBottomWithPanel="True">
+
+                                                                    <TextBlock Style="{StaticResource DisplayStyle}"
+                                                                     FontSize="12"
+                                                                     Text="{x:Bind person.Age}"
+                                                                     FontWeight="SemiBold"
+                                                                     Foreground="White"
+                                                                     VerticalAlignment="Center" />
+                                                                </Border>
+
+                                                                <!-- Living Info -->
+                                                                <TextBlock Text="{x:Bind person.LivingInfo}"
+                                                                   Style="{StaticResource DisplayStyle}"
+                                                                   FontSize="12"
+                                                                   VerticalAlignment="Center"
+                                                                   Margin="8,0,0,0"
+                                                                               TextTrimming="CharacterEllipsis"
+                                                                       TextWrapping="WrapWholeWords"
+                                                                               Foreground="White"
+                                                                   RelativePanel.AlignTopWithPanel="True"
+                                                                   RelativePanel.AlignRightWithPanel="True"
+                                                                   RelativePanel.AlignBottomWithPanel="True"
+                                                                   RelativePanel.RightOf="brdCastAge"/>
+
+                                                            </RelativePanel>
+
+                                                            <!-- Cast Biography -->
+                                                            <TextBlock Text="{x:Bind person.PersonBiography}"
+                                                                 Style="{StaticResource DisplayStyle}"
+                                                                 FontSize="12"
+                                                                 TextAlignment="Justify"
+                                                                 TextWrapping="WrapWholeWords"
+                                                                 Foreground="White"
+                                                                 Margin="0,20,0,0"
+                                                                 LineStackingStrategy="BlockLineHeight" />
+
+                                                        </StackPanel>
+
+
+                                                    </RelativePanel>
+                                                </RelativePanel>
+                                            </Flyout>
+                                        </fwButton:FWButton.Flyout>
+
+                                    </fwButton:FWButton>
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                    </ListView>
+                </PivotItem>
+
+                <PivotItem Header="SIMILAR">
+                    <fwGrid:ResponsiveGridView x:Name="grdSimilarShows"
+                                               ItemsSource="{x:Bind ViewModel.SimilarShows, Mode=OneWay}"
+                                               SelectionMode="None"
+                                               IsItemClickEnabled="True"
+                                               Margin="-4,0,-4,0"
+                                               Visibility="{x:Bind local:Converters.IsVisible(ViewModel.IsSimilarShowsAvailable), Mode=OneWay}"    
+                                               DesiredWidth="150"
+                                               DesiredHeight="220">
+
+                        <fwGrid:ResponsiveGridView.ItemContainerStyle>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalAlignment" Value="Stretch" />
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Padding" Value="4,0,4,8" />
+                            </Style>
+                        </fwGrid:ResponsiveGridView.ItemContainerStyle>
+
+                        <fwGrid:ResponsiveGridView.ItemTemplate>
+                            <DataTemplate x:DataType="dm:Show">
+                                <RelativePanel x:Name="pnlShow" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Background="#DD455A64" BorderBrush="#66AAAAAA" BorderThickness="1">
+
+                                    <!-- Poster Image -->
+                                    <fwImage:ImageEx x:Name="imgPoster"
+                                                     ImageStretch="UniformToFill"
+                                                     ImageSource="{x:Bind PosterImage}"
+                                                     VerticalAlignment="Stretch"
+                                                     HorizontalAlignment="Stretch"
+                                                     RelativePanel.AlignBottomWithPanel="True"
+                                                     RelativePanel.AlignLeftWithPanel="True"
+                                                     RelativePanel.AlignRightWithPanel="True"
+                                                     RelativePanel.AlignTopWithPanel="True"/>
+
+                                    <!-- Bottom Bar -->
+                                    <RelativePanel x:Name="pnlBottoomBar"
+                                                   Height="48"
+                                                   Margin="0,0"
+                                                   Background="#DD555555"
+                                                   RelativePanel.AlignBottomWithPanel="True"
+                                                   RelativePanel.AlignLeftWithPanel="True"
+                                                   RelativePanel.AlignRightWithPanel="True">
+
+                                        <!-- Add Show Button -->
+                                        <fwButton:FWButton x:Name="btnAddShow"
+                                         Width="40"
+                                         Height="40"
+                                         Margin="4"
+                                         Background="#00796B"
+                                         Foreground="White"
+                                         IconForeground="White"
+                                         IconPosition="OnlyIcon"
+                                         IconSize="20"
+                                         PointerOverBackground="#AA00796b"
+                                         PressedBackground="#009688"
+                                         Command="{Binding DataContext.StartTrackingShowCommand, ElementName=RootPanel, Mode=OneWay}"
+                                         CommandParameter="{x:Bind}"
+                                         Visibility="{x:Bind local:Converters.ReverseVisible(IsTracking), Mode=OneWay}"
+                                         ToolTipService.ToolTip="ADD TO MY WATCHLIST"
+                                         RelativePanel.AlignTopWithPanel="True"
+                                         RelativePanel.AlignRightWithPanel="True">
+                                            <fwButton:FWButton.Icon>
+                                                <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf067;" />
+                                            </fwButton:FWButton.Icon>
+                                        </fwButton:FWButton>
+
+
+                                        <!-- Show Name -->
+                                        <TextBlock x:Name="txtShowName"
+                                 Text="{x:Bind ShowTitle}"
+                                 Style="{StaticResource BasicTextBlockStyle}"
+                                 Margin="4,0,0,0"
+                                 TextTrimming="CharacterEllipsis"
+                                 TextWrapping="Wrap"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Center"
+                                 RelativePanel.LeftOf="btnAddShow"
+                                 RelativePanel.AlignTopWithPanel="True"
+                                 RelativePanel.AlignBottomWithPanel="True"
+                                 RelativePanel.AlignLeftWithPanel="True"
+                                 Foreground="White"
+                                 FontSize="14"/>
+
+                                    </RelativePanel>
+
+                                </RelativePanel>
+                            </DataTemplate>
+                        </fwGrid:ResponsiveGridView.ItemTemplate>
+
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="ItemClick">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToShowPageCommand, Mode=OneWay}" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </fwGrid:ResponsiveGridView>
+                </PivotItem>
+
+            </Pivot>
+
+
+
+        </RelativePanel>
+
+    </Grid>
+</Page>
+
+

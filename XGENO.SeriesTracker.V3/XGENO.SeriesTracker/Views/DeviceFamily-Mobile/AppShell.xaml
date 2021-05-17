@@ -1,0 +1,130 @@
+﻿<Page
+    x:Class="XGENO.SeriesTracker.Views.AppShell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:XGENO.SeriesTracker.Views"
+    xmlns:fwButton="using:XGENO.UWP.Controls.FWButton"
+    xmlns:fwComposition="using:XGENO.UWP.Controls.Composition"
+    xmlns:FWControls="using:XGENO.Framework.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    TabNavigation="Cycle"
+    Background="#283037"
+    Loaded="Root_Loaded"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Styles/AppShellStylesMobile.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+
+    <Grid>
+        <!--<Grid.Background>
+            <ImageBrush x:Name="ShellBackground" ImageSource="ms-appx:///Assets/Background.jpg"  Stretch="UniformToFill" Opacity="0.5" />
+        </Grid.Background>-->
+
+        <!-- Split View Menu -->
+        <SplitView x:Name="RootSplitView" 
+                   DisplayMode="Overlay"
+                   IsPaneOpen="False" 
+                   OpenPaneLength="240"
+                   CompactPaneLength="52"
+                   IsTabStop="False" 
+                   PaneBackground="#455A64">
+            <SplitView.Pane>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="56" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="20" />
+                    </Grid.RowDefinitions>
+
+                    <!--<fwComposition:BackDrop BlurAmount="10" TintColor="#555555" Grid.RowSpan="4" />-->
+
+                    <!-- Top-level navigation menu + app content -->
+                    <FWControls:NavMenuListView x:Name="TopNavMenuList" 
+                                                Margin="8,0,0,0"
+                                                Grid.Row="1"
+                                                SelectionMode="None"
+                                                TabIndex="2"
+                                                ContainerContentChanging="NavMenuItemContainerContentChanging"
+                                                ItemContainerStyle="{StaticResource NavMenuItemContainerStyle}"
+                                                ItemTemplate="{StaticResource NavMenuItemTemplate}"
+                                                ItemInvoked="NavMenuList_ItemInvoked" />
+
+
+                    <!-- Bottom-level navigation menu + app content -->
+                    <FWControls:NavMenuListView x:Name="BottomNavMenuList" 
+                                                Grid.Row="2" 
+                                                VerticalAlignment="Bottom"
+                                                SelectionMode="None"
+                                                TabIndex="3"
+                                                Margin="8,0,0,8"
+                                                ContainerContentChanging="NavMenuItemContainerContentChanging"
+                                                ItemContainerStyle="{StaticResource NavMenuItemContainerStyle}"
+                                                ItemTemplate="{StaticResource NavMenuItemTemplate}"
+                                                ItemInvoked="NavMenuList_ItemInvoked" />
+
+                    <!-- Version No -->
+                    <TextBlock Text="SERIES TRACKER V.3.5." FontFamily="Segoe UI" FontSize="12" Foreground="White" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,12,8" />
+                </Grid>
+            </SplitView.Pane>
+        </SplitView>
+
+        <!-- Baackground -->
+        <RelativePanel Margin="0"
+                       Background="#455A64"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Top"
+                       Height="46">
+            <TextBlock Text="SERIES TRACKER" FontFamily="Segoe UI" FontSize="18" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="46,0,0,0" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" />
+        </RelativePanel>
+        
+        <!-- Hamburger Button -->
+        <fwButton:FWButton x:Name="btnHamburger"
+                           VerticalAlignment="Top" 
+                           HorizontalAlignment="Left" 
+                           Margin="4"
+                           Background="#455A64"
+                           Foreground="White"
+                           IconForeground="White"
+                           IconPosition="OnlyIcon"
+                           IconSize="22"
+                           TabIndex="5"
+                           Width="38" Height="38"
+                           PointerOverBackground="Transparent"
+                           PressedBackground="Transparent"
+                           Click="Hanburger_Clicked">
+            <fwButton:FWButton.Icon>
+                <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf0c9;" />
+            </fwButton:FWButton.Icon>
+        </fwButton:FWButton>
+
+        <!-- Busy Indicator -->
+        <Grid x:Name="BusyIndicatorGrid" 
+              Visibility="Collapsed" 
+              VerticalAlignment="Stretch" 
+              HorizontalAlignment="Stretch"
+              Margin="0,46,0,0"
+              Background="#33232323">
+
+            <!--<fwComposition:BackDrop BlurAmount="5" TintColor="#455A64" />-->
+
+            <Viewbox Height="100">
+                <StackPanel Orientation="Vertical">
+                    <ProgressRing x:Name="ProgressControl" Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" IsActive="False" />
+
+                    <TextBlock x:Name="BusyText" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Style="{StaticResource BasicTextBlockStyle}" FontSize="13" TextWrapping="WrapWholeWords"  Margin="0,12,0,0" />
+                    <TextBlock x:Name="BusyText2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Style="{StaticResource BasicTextBlockStyle}" FontSize="9"  Margin="0,2,0,0" />
+                </StackPanel>
+            </Viewbox>
+        </Grid>
+
+
+    </Grid>
+</Page>

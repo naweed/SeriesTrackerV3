@@ -1,0 +1,36 @@
+﻿<UserControl
+    x:Class="XGENO.SeriesTracker.Views.Splash"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:XGENO.SeriesTracker.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cmpToolkit="using:CompositionProToolkit.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#455A64">
+
+        <Canvas x:Name="rootCanvas"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+            <Canvas.Background>
+                <ImageBrush ImageSource="ms-appx:///Assets/SplashScreen.png" Stretch="Uniform">
+                    <ImageBrush.Transform>
+                        <TranslateTransform Y="10" />
+                    </ImageBrush.Transform>
+                </ImageBrush>
+            </Canvas.Background>
+            <Viewbox x:Name="splashImage">
+                <Image Source="ms-appx:///Assets/SplashScreen.png" ImageOpened="Image_Loaded" />
+            </Viewbox>
+        </Canvas>
+
+        <ProgressRing x:Name="progressRing" Height="50" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" IsActive="True" RenderTransformOrigin="0.5,0.5">
+            <ProgressRing.RenderTransform>
+                <CompositeTransform x:Name="ProgressTransform" TranslateY="120" />
+            </ProgressRing.RenderTransform>
+        </ProgressRing>
+    </Grid>
+</UserControl>

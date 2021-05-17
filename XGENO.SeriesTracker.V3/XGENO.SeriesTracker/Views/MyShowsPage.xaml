@@ -1,0 +1,679 @@
+﻿<Page
+    x:Class="XGENO.SeriesTracker.Views.MyShowsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:XGENO.SeriesTracker.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:XGENO.SeriesTracker.ViewModels" 
+    xmlns:dm="using:XGENO.SeriesTracker.DataModels"
+    xmlns:fwComposition="using:XGENO.UWP.Controls.Composition"
+    xmlns:fwExtensions="using:XGENO.Framework.Extensions"
+    xmlns:fwControls="using:XGENO.Framework.Controls"
+    xmlns:fwGrid="using:XGENO.UWP.Controls.ResponsiveGrid"
+    xmlns:fwButton="using:XGENO.UWP.Controls.FWButton"
+    xmlns:fwImage="using:XGENO.UWP.Controls.Images"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:fwActions="using:XGENO.Framework.Behaviors"
+    mc:Ignorable="d">
+
+  <Page.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Styles/GridViewGroupedHeaderStyles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Page.Resources>
+  
+  <Page.DataContext>
+        <vm:MyShowsPageViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <Grid x:Name="RootPanel">
+
+      <!-- Show Archived Button -->
+      <fwButton:FWButton x:Name="btnShowArchived"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Right"
+                           Content="ARCHIVED SHOWS"
+                           Background="#1976D2"
+                           PointerOverBackground="#661976D2"
+                           PressedBackground="#232323"
+                           BorderBrush="#CCAAAAAA"
+                           BorderThickness="1"
+                           Margin="20"
+                           Foreground="White"
+                           IconForeground="White"
+                           IconPosition="Left"
+                           IconSize="24"
+                           Command="{x:Bind ViewModel.ShowOnlyArchivedShows, Mode=OneWay}"
+                           FontSize="14"
+                           FontStyle="Normal"
+                           FontWeight="Normal"
+                           IconInterval="0"
+                           Padding="12,4,16,4"
+                           TabIndex="6"
+                           Visibility="{x:Bind local:Converters.ReverseVisible(ViewModel.ArchivedShows), Mode=OneWay}"
+                           FontFamily="{StaticResource AppFont}">
+          <fwButton:FWButton.Icon>
+            <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf096;" Margin="0,0,8,0" />
+          </fwButton:FWButton.Icon>
+        </fwButton:FWButton>
+
+      <!-- Show Un Archived Button -->
+      <fwButton:FWButton x:Name="btnShowUnArchived"
+                           VerticalAlignment="Top"
+                           HorizontalAlignment="Right"
+                           Content="ARCHIVED SHOWS"
+                           Background="#1976D2"
+                           PointerOverBackground="#661976D2"
+                           PressedBackground="#232323"
+                           BorderBrush="#CCAAAAAA"
+                           BorderThickness="1"
+                           Margin="20"
+                           Foreground="White"
+                           IconForeground="White"
+                           IconPosition="Left"
+                           IconSize="24"
+                           Command="{x:Bind ViewModel.ShowOnlyNonArchivedShows, Mode=OneWay}"
+                           FontSize="14"
+                           FontStyle="Normal"
+                           FontWeight="Normal"
+                           IconInterval="0"
+                           Padding="12,4,16,4"
+                           TabIndex="6"
+                           Visibility="{x:Bind local:Converters.IsVisible(ViewModel.ArchivedShows), Mode=OneWay}"
+                           FontFamily="{StaticResource AppFont}">
+          <fwButton:FWButton.Icon>
+            <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf046;" Margin="0,0,8,0" />
+          </fwButton:FWButton.Icon>
+        </fwButton:FWButton>
+
+
+      <!-- Excludes Inactive Shows Button -->
+      <fwButton:FWButton x:Name="btnHideInactive"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Right"
+                         Content="HIDE INACTIVE *"
+                         Background="#1976D2"
+                         PointerOverBackground="#661976D2"
+                         PressedBackground="#232323"
+                         BorderBrush="#CCAAAAAA"
+                         BorderThickness="1"
+                         Margin="20,20,208,20"
+                         Foreground="White"
+                         IconForeground="White"
+                         IconPosition="Left"
+                         IconSize="24"
+                         Command="{x:Bind ViewModel.ShowInactiveShowsCommand, Mode=OneWay}"
+                         FontSize="14"
+                         FontStyle="Normal"
+                         FontWeight="Normal"
+                         IconInterval="0"
+                         Padding="12,4,16,4"
+                         TabIndex="6"
+                         Visibility="{x:Bind local:Converters.IsVisible(ViewModel.HideShows), Mode=OneWay}"
+                         FontFamily="{StaticResource AppFont}">
+        <fwButton:FWButton.Icon>
+          <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf046;" Margin="0,0,8,0" />
+        </fwButton:FWButton.Icon>
+      </fwButton:FWButton>
+
+      <!-- Include Inactive Shows Button -->
+      <fwButton:FWButton x:Name="btnShowInactive"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Right"
+                         Content="HIDE INACTIVE *"
+                         Background="#1976D2"
+                         PointerOverBackground="#661976D2"
+                         PressedBackground="#232323"
+                         BorderBrush="#CCAAAAAA"
+                         BorderThickness="1"
+                         Margin="20,20,208,20"
+                         Foreground="White"
+                         IconForeground="White"
+                         IconPosition="Left"
+                         IconSize="24"
+                         Command="{x:Bind ViewModel.HideInactiveShowsCommand, Mode=OneWay}"
+                         FontSize="14"
+                         FontStyle="Normal"
+                         FontWeight="Normal"
+                         IconInterval="0"
+                         Padding="12,4,16,4"
+                         TabIndex="6"
+                         Visibility="{x:Bind local:Converters.ReverseVisible(ViewModel.HideShows), Mode=OneWay}"
+                         FontFamily="{StaticResource AppFont}">
+        <fwButton:FWButton.Icon>
+          <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf096;" Margin="0,0,8,0" />
+        </fwButton:FWButton.Icon>
+      </fwButton:FWButton>
+
+      <!-- Sort Alphabetical Button -->
+      <fwButton:FWButton x:Name="btnSortAlphabetical"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Right"
+                         Content="SORT ALPHABETICAL"
+                         Background="#1976D2"
+                         PointerOverBackground="#661976D2"
+                         PressedBackground="#232323"
+                         BorderBrush="#CCAAAAAA"
+                         BorderThickness="1"
+                         Margin="20,20,382,20"
+                         Foreground="White"
+                         IconForeground="White"
+                         IconPosition="Left"
+                         IconSize="24"
+                         Command="{x:Bind ViewModel.SortByStatusCommand, Mode=OneWay}"
+                         FontSize="14"
+                         FontStyle="Normal"
+                         FontWeight="Normal"
+                         IconInterval="0"
+                         Padding="12,4,16,4"
+                         TabIndex="6"
+                         Visibility="{x:Bind local:Converters.IsVisible(ViewModel.SortAlphabeticallyEnabled), Mode=OneWay}"
+                         FontFamily="{StaticResource AppFont}">
+        <fwButton:FWButton.Icon>
+          <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf046;" Margin="0,0,8,0" />
+        </fwButton:FWButton.Icon>
+      </fwButton:FWButton>
+
+      <!-- Sort By Status Button -->
+      <fwButton:FWButton x:Name="btnSortByStatus"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Right"
+                         Content="SORT ALPHABETICAL"
+                         Background="#1976D2"
+                         PointerOverBackground="#661976D2"
+                         PressedBackground="#232323"
+                         BorderBrush="#CCAAAAAA"
+                         BorderThickness="1"
+                         Margin="20,20,382,20"
+                         Foreground="White"
+                         IconForeground="White"
+                         IconPosition="Left"
+                         IconSize="24"
+                         Command="{x:Bind ViewModel.SortAlphabeticalCommand, Mode=OneWay}"
+                         FontSize="14"
+                         FontStyle="Normal"
+                         FontWeight="Normal"
+                         IconInterval="0"
+                         Padding="12,4,16,4"
+                         TabIndex="6"
+                         Visibility="{x:Bind local:Converters.ReverseVisible(ViewModel.SortAlphabeticallyEnabled), Mode=OneWay}"
+                         FontFamily="{StaticResource AppFont}">
+        <fwButton:FWButton.Icon>
+          <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf096;" Margin="0,0,8,0" />
+        </fwButton:FWButton.Icon>
+      </fwButton:FWButton>
+
+      
+      <TextBlock Text="* Hide shows which require no action, or have no information about recent upcoming episodes." VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource BasicTextBlockStyle}" Margin="20,0,0,4" Foreground="#ffc107" FontSize="16" />
+
+      <!-- In case not tracking anything -->
+      <TextBlock Style="{StaticResource BasicTextBlockStyle}"
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="Left"
+                 Text="{x:Bind ViewModel.NothingToWatchMessage, Mode=OneWay}"
+                 TextAlignment="Justify"
+                 TextWrapping="WrapWholeWords"
+                 Visibility="{x:Bind local:Converters.ReverseVisible(ViewModel.TrackingListAvailable), Mode=OneWay}"
+                 Foreground="White"
+                 Margin="12,88,12,28"
+                 FontSize="20" />    
+      
+      <!-- List of My Shows -->
+      <fwGrid:ResponsiveGridView x:Name="grdShows"
+                                               ItemsSource="{x:Bind ViewModel.Shows, Mode=OneWay}"
+                                               SelectionMode="None"
+                                               IsItemClickEnabled="True"
+                                               Margin="12,68,12,28"
+                                               DesiredWidth="290"
+                                               DesiredHeight="230">
+
+            <fwGrid:ResponsiveGridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Padding" Value="8" />
+                </Style>
+            </fwGrid:ResponsiveGridView.ItemContainerStyle>
+
+          <fwGrid:ResponsiveGridView.ItemTemplate>
+                <DataTemplate x:DataType="dm:Show">
+                    <fwComposition:CompositionShadow BlurRadius="10" ShadowOpacity=".7" OffsetX="4" OffsetY="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <Border Background="Transparent" BorderThickness="0">
+                            <RelativePanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#DD455A64">
+
+                                <!-- Poster Image at top -->
+                                <fwImage:ImageEx x:Name="imgPoster"
+                                         VerticalAlignment="Stretch"
+                                         HorizontalAlignment="Stretch" 
+                                         ImageStretch="UniformToFill"
+                                         Margin="0,0,0,50"
+                                         ImageSource="{x:Bind BackgroundImage}"
+                                         RelativePanel.AlignBottomWithPanel="True"
+                                         RelativePanel.AlignLeftWithPanel="True"
+                                         RelativePanel.AlignRightWithPanel="True"
+                                         RelativePanel.AlignTopWithPanel="True" />
+
+
+                                <!-- Bottom Bar with Information -->
+                                <RelativePanel x:Name="grdInfo"
+                              RelativePanel.AlignBottomWithPanel="True"
+                              RelativePanel.AlignRightWithPanel="True"
+                              RelativePanel.AlignLeftWithPanel="True"
+                              Margin="0,0,0,0"
+                              Height="50">
+
+
+                                    <!-- Show Progress -->
+                                    <fwControls:RingSlice x:Name="rngProgress"
+                                                  RingForeground="#388E3C"
+                                                  Thickness="3"
+                                                  BackgroundThickness="1"
+                                                  RingBackground="Red"
+                                                  Value="{x:Bind WatchedPercentage, Mode=OneWay}"
+                                                  DisplayText="{x:Bind local:Converters.DisplayPercentage(WatchedPercentage), Mode=OneWay}"
+                                                  VerticalAlignment="Center"
+                                                  FontSize="10"
+                                                  Height="42"
+                                                  Width="42"
+                                                  Margin="4,0,0,0"
+                                                  RelativePanel.AlignLeftWithPanel="True"
+                                                  RelativePanel.AlignTopWithPanel="True"
+                                                  RelativePanel.AlignBottomWithPanel="True" />
+
+                                    <!-- Show Name -->
+                                    <TextBlock x:Name="txtShowName"
+                                           RelativePanel.AlignRightWithPanel="True"
+                                           RelativePanel.RightOf="rngProgress"
+                                           RelativePanel.AlignTopWithPanel="True"
+                                           Margin="8,6,8,0"
+                                           Text="{x:Bind ShowTitle}"
+                                           Style="{StaticResource BasicTextBlockStyle}"
+                                           TextTrimming="CharacterEllipsis"
+                                           FontSize="18"
+                                           Foreground="#FFF3AA"
+                                           TextAlignment="Left" />
+
+                                    <!-- Show Tracking Status -->
+                                    <fwControls:MarqueeTextBlock x:Name="txtMissedEpisodes"
+                                                         Foreground="#eeeeee" 
+                                                         AnimationDuration="0:0:12" 
+                                                         IsTicker="True" 
+                                                         Text="{x:Bind ShowTrackingStatus, Mode=OneWay}"
+                                                         Margin="8,-1,8,0" 
+                                                         RelativePanel.AlignRightWithPanel="True"
+                                                         RelativePanel.RightOf="rngProgress"
+                                                         RelativePanel.Below="txtShowName"
+                                                         FontSize="12" />
+
+
+                                </RelativePanel>
+
+                                <!-- More Details Button -->
+                                <fwButton:FWButton x:Name="btnMore"   
+                                           BorderBrush="#CCAAAAAA"
+                                           BorderThickness="1"
+                                           VerticalAlignment="Top"
+                                           HorizontalAlignment="Right" 
+                                           Margin="16"
+                                           RelativePanel.AlignRightWithPanel="True"
+                                           RelativePanel.AlignTopWithPanel="True"
+                                           Width="44"
+                                           Height="44"       
+                                           Background="#1976D2"
+                                           Foreground="White"
+                                           IconForeground="White"
+                                           IconPosition="OnlyIcon"
+                                           IconSize="20"
+                                           ToolTipService.ToolTip="CLICK HERE TO VIEW OPTIONS"
+                                           PointerOverBackground="#AA1976D2"
+                                           PressedBackground="#CC232323">
+                                    <fwButton:FWButton.Icon>
+                                        <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf0ca;" />
+                                    </fwButton:FWButton.Icon>
+
+                                    <fwButton:FWButton.Flyout>
+                                        <Flyout>
+                                            <Flyout.FlyoutPresenterStyle>
+                                                <Style TargetType="FlyoutPresenter">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="BorderBrush" Value="#232323"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="Padding" Value="0"/>
+                                                </Style>
+                                            </Flyout.FlyoutPresenterStyle>
+
+                                            <RelativePanel >
+                                                <fwComposition:BackDrop BlurAmount="20" TintColor="#455A64" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
+
+                                                <StackPanel Margin="16" Width="400"  RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
+
+                                                    <!-- Common Commands -->
+                                                    <RelativePanel HorizontalAlignment="Stretch">
+
+                                                        <!-- Stop Tracking Button -->
+                                                        <fwButton:FWButton x:Name="btnStopTracking"
+                                                               RelativePanel.AlignLeftWithPanel="True"
+                                                             Content="STOP&#x0a;TRACKING"
+                                                            Background="#1976D2"
+                                                             BorderBrush="#CCAAAAAA"
+                                                             BorderThickness="1"
+                                                             Margin="0"
+                                                             Foreground="White"
+                                                             IconForeground="White"
+                                                             IconPosition="Left"
+                                                             IconSize="36"
+                                                             Command="{Binding DataContext.StopTrackingCommand, ElementName=RootPanel, Mode=OneWay}"
+                                                             CommandParameter="{x:Bind}"
+                                                             FontSize="12"
+                                                             FontStyle="Normal"
+                                                             FontWeight="Normal"
+                                                             IconInterval="0"
+                                                             Padding="12,4,16,4"
+                                                             FontFamily="Segou UI">
+                                                            <fwButton:FWButton.Icon>
+                                                                <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf05e;" Margin="0,0,12,0" />
+                                                            </fwButton:FWButton.Icon>
+                                                        </fwButton:FWButton>
+
+                                                        <!-- Share Button -->
+                                                        <fwButton:FWButton x:Name="btnShare"
+                                                             HorizontalAlignment="Center"
+                                                             RelativePanel.RightOf="btnStopTracking"
+                                                               RelativePanel.LeftOf="pnlArchive"
+                                                             Content="SHARE&#x0a;PROGRESS"
+                                                           Background="#1976D2"
+                                                             BorderBrush="#CCAAAAAA"
+                                                             BorderThickness="1"
+                                                             Margin="0"
+                                                             Foreground="White"
+                                                             IconForeground="White"
+                                                             IconPosition="Left"
+                                                             IconSize="36"
+                                                             Click="Share_Click"
+                                                             FontSize="12"
+                                                             FontStyle="Normal"
+                                                             FontWeight="Normal"
+                                                             IconInterval="0"
+                                                             Padding="12,4,16,4"
+                                                             FontFamily="Segou UI">
+                                                            <fwButton:FWButton.Icon>
+                                                                <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf1e0;" Margin="0,0,12,0" />
+                                                            </fwButton:FWButton.Icon>
+                                                        </fwButton:FWButton>
+
+                                                        <!-- Archive/UnArchive -->
+                                                        <RelativePanel x:Name="pnlArchive"
+                                                           RelativePanel.AlignRightWithPanel="True">
+
+                                                            <!-- Archive Button -->
+                                                            <fwButton:FWButton x:Name="btnArchive"
+                                                             Content="ARCHIVE&#x0a;SHOW"
+                                                           Background="#1976D2"
+                                                             BorderBrush="#CCAAAAAA"
+                                                             BorderThickness="1"
+                                                             Margin="0"
+                                                             Foreground="White"
+                                                             IconForeground="White"
+                                                             IconPosition="Left"
+                                                             IconSize="36"
+                                                             Command="{Binding DataContext.ArchiveShowCommand, ElementName=RootPanel, Mode=OneWay}"
+                                                             CommandParameter="{x:Bind}"
+                                                             FontSize="12"
+                                                             FontStyle="Normal"
+                                                             FontWeight="Normal"
+                                                             IconInterval="0"
+                                                             Padding="12,4,16,4"
+                                                             FontFamily="Segou UI"
+                                                    Visibility="{x:Bind local:Converters.ReverseVisible(IsArchived), Mode=OneWay}" >
+                                                                <fwButton:FWButton.Icon>
+                                                                    <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf0ed;" Margin="0,0,12,0" />
+                                                                </fwButton:FWButton.Icon>
+                                                            </fwButton:FWButton>
+
+                                                            <!-- UnArchive Button -->
+                                                            <fwButton:FWButton x:Name="btnUnArchive"
+                                                             Content="UNARCHIVE&#x0a;SHOW"
+                                                           Background="#1976D2"
+                                                             BorderBrush="#CCAAAAAA"
+                                                             BorderThickness="1"
+                                                             Margin="0"
+                                                             Foreground="White"
+                                                             IconForeground="White"
+                                                             IconPosition="Left"
+                                                             IconSize="36"
+                                                             Command="{Binding DataContext.UnArchiveShowCommand, ElementName=RootPanel, Mode=OneWay}"
+                                                             CommandParameter="{x:Bind}"
+                                                             FontSize="12"
+                                                             FontStyle="Normal"
+                                                             FontWeight="Normal"
+                                                             IconInterval="0"
+                                                             Padding="12,4,16,4"
+                                                             FontFamily="Segou UI"
+                                                    Visibility="{x:Bind local:Converters.IsVisible(IsArchived), Mode=OneWay}" >
+                                                                <fwButton:FWButton.Icon>
+                                                                    <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf0ee;" Margin="0,0,12,0" />
+                                                                </fwButton:FWButton.Icon>
+                                                            </fwButton:FWButton>
+
+                                                        </RelativePanel>
+
+                                                    </RelativePanel>
+
+
+                                                    <!-- Missed Episodes -->
+                                                    <RelativePanel Visibility="{x:Bind local:Converters.IsVisibleOnCount(MissedEpisodeCount), Mode=OneWay}" 
+                                                       HorizontalAlignment="Stretch" 
+                                                       Margin="0,16,0,0" 
+                                                       BorderBrush="#CCAAAAAA" BorderThickness="1"
+                                                       Background="Transparent">
+
+                                                        <!-- Heading -->
+                                                        <RelativePanel x:Name="pnlMissedHeader" 
+                                                           Background="#55455A64" 
+                                                           BorderBrush="#CCAAAAAA"
+                                                           BorderThickness="0,0,0,1"
+                                                           RelativePanel.AlignLeftWithPanel="True"
+                                                           RelativePanel.AlignTopWithPanel="True"
+                                                           RelativePanel.AlignRightWithPanel="True">
+                                                            <TextBlock x:Name="lblMissedEpisodes" 
+                                                           Margin="10"
+                                                           Text="MISSED EPISODES"
+                                                           Style="{StaticResource BasicTextBlockStyle}"
+                                                           Foreground="White"
+                                                           FontSize="24" />
+                                                        </RelativePanel>
+
+                                                        <!-- Episodes List -->
+                                                        <ListView x:Name="lstEpisodes"
+                                                  Height="400"
+                                                  Margin="8"
+                                                  RelativePanel.AlignLeftWithPanel="True"
+                                                  RelativePanel.AlignRightWithPanel="True"
+                                                  RelativePanel.Below="pnlMissedHeader"
+                                                  RelativePanel.Above="stkButtons"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Stretch"
+                                                  ItemsSource="{Binding MissedEpisodesList.View, Mode=OneWay}"
+                                                  SelectionMode="None"
+                                                  IsItemClickEnabled="False">
+
+                                                            <ListView.ItemContainerStyle>
+                                                                <Style TargetType="ListViewItem">
+                                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                                                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                                                                    <Setter Property="Margin" Value="0" />
+                                                                    <Setter Property="Padding" Value="4" />
+                                                                    <Setter Property="Height" Value="48" />
+                                                                    <Setter Property="MinHeight" Value="20" />
+                                                                </Style>
+                                                            </ListView.ItemContainerStyle>
+
+                                                            <ListView.ItemTemplate>
+                                                                <DataTemplate x:DataType="dm:Episode">
+                                                                    <RelativePanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+                                                                        <CheckBox x:Name="chkIsSelected" 
+                                                                  Margin="4,0,0,0"
+                                                                  IsChecked="{x:Bind IsSelected, Mode=TwoWay}" 
+                                                                  Content=" "
+                                                                  RelativePanel.AlignLeftWithPanel="True"
+                                                                  RelativePanel.AlignTopWithPanel="True"
+                                                                  RelativePanel.AlignBottomWithPanel="True"
+                                                                  VerticalAlignment="Center"
+                                                                  HorizontalAlignment="Right" />
+
+                                                                        <StackPanel Orientation="Vertical"
+                                                                    RelativePanel.RightOf="chkIsSelected"
+                                                                    RelativePanel.AlignTopWithPanel="True"
+                                                                    RelativePanel.AlignBottomWithPanel="True"
+                                                                    RelativePanel.AlignLeftWithPanel="True"
+                                                                    Margin="36,0,12,0">
+
+                                                                            <TextBlock Text="{x:Bind EpisodeFullName}"                                                                   
+                                                                     Foreground="White"
+                                                                     FontSize="14"
+                                                                     TextTrimming="CharacterEllipsis"/>
+
+                                                                            <TextBlock Text="{x:Bind AiredDate}"
+                                                                     Margin="0,2,0,0"
+                                                                     Foreground="White"
+                                                                     FontSize="12" />
+
+                                                                        </StackPanel>
+
+                                                                    </RelativePanel>
+                                                                </DataTemplate>
+                                                            </ListView.ItemTemplate>
+
+                                                            <ListView.GroupStyle>
+                                                                <GroupStyle HeaderContainerStyle="{StaticResource ListViewHeaderItemStyleWithNoMargin}">
+                                                                    <GroupStyle.HeaderTemplate>
+                                                                        <DataTemplate x:DataType="dm:SeasonEpisodeGroup">
+                                                                            <RelativePanel HorizontalAlignment="Stretch" BorderBrush="#DD455A64" BorderThickness="0,0,0,0" Background="Transparent" Margin="0,0,8,0">
+
+                                                                                <CheckBox x:Name="chkIsSelected" 
+                                                                          Margin="5,0,0,3"
+                                                                          RelativePanel.AlignLeftWithPanel="True"
+                                                                          RelativePanel.AlignBottomWithPanel="True"
+                                                                          RelativePanel.AlignTopWithPanel="True"
+                                                                          IsChecked="{x:Bind IsSelected, Mode=TwoWay}" 
+                                                                          Content=" "                           
+                                                                          VerticalAlignment="Center"  />
+
+                                                                                <TextBlock Text="{x:Bind Key, Mode=OneWay}" Style="{StaticResource BasicTextBlockStyle}" 
+                                                                           FontSize="20" Foreground="White" Margin="36,0,0,3" VerticalAlignment="Center"
+                                                                           RelativePanel.AlignLeftWithPanel="True"
+                                                                           RelativePanel.AlignBottomWithPanel="True" 
+                                                                           RelativePanel.AlignTopWithPanel="True" />
+                                                                            </RelativePanel>
+                                                                        </DataTemplate>
+                                                                    </GroupStyle.HeaderTemplate>
+                                                                </GroupStyle>
+                                                            </ListView.GroupStyle>
+
+                                                        </ListView>
+
+                                                        <!-- Buttons -->
+                                                        <RelativePanel x:Name="stkButtons"
+                                                           Margin="16,8,16,16"
+                                                           RelativePanel.AlignBottomWithPanel="True"
+                                                           RelativePanel.AlignLeftWithPanel="True"
+                                                           RelativePanel.AlignRightWithPanel="True">
+
+                                                            <!-- Mark Selected Button -->
+                                                            <fwButton:FWButton x:Name="btnNarkSelected"     
+                                                                   RelativePanel.AlignLeftWithPanel="True"
+                                                                   Content="WATCHED SELECTED"
+                                                           Background="#1976D2"
+                                                           BorderBrush="#CCAAAAAA"
+                                                           BorderThickness="1"
+                                                           Margin="0"
+                                                           Foreground="White"
+                                                           IconForeground="White"
+                                                           IconPosition="Left"
+                                                           IconSize="24"
+                                                           Command="{Binding DataContext.MarkSelectedEpisodesAsWatchedCommand, ElementName=RootPanel, Mode=OneWay}"
+                                                           CommandParameter="{x:Bind}"
+                                                           FontSize="14"
+                                                           FontStyle="Normal"
+                                                           FontWeight="Normal"
+                                                           IconInterval="0"
+                                                           Padding="12,4,16,4"
+                                                           FontFamily="{StaticResource AppFont}">
+                                                                <fwButton:FWButton.Icon>
+                                                                    <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf046;" Margin="0,0,8,0" />
+                                                                </fwButton:FWButton.Icon>
+                                                            </fwButton:FWButton>
+
+
+                                                            <!-- Mark all button -->
+                                                            <fwButton:FWButton x:Name="btnNarkAll"     
+                                                                   RelativePanel.AlignRightWithPanel="True"
+                                                           Content="WATCHED ALL"
+                                                           Background="#1976D2"
+                                                           BorderBrush="#CCAAAAAA"
+                                                           BorderThickness="1"
+                                                           Margin="0"
+                                                           Foreground="White"
+                                                           IconForeground="White"
+                                                           IconPosition="Left"
+                                                           IconSize="24"
+                                                           Command="{Binding DataContext.MarkAllEpisodesAsWatchedCommand, ElementName=RootPanel, Mode=OneWay}"
+                                                           CommandParameter="{x:Bind}"
+                                                           FontSize="14"
+                                                           FontStyle="Normal"
+                                                           FontWeight="Normal"
+                                                           IconInterval="0"
+                                                           Padding="12,4,12,4"
+                                                           FontFamily="{StaticResource AppFont}">
+                                                                <fwButton:FWButton.Icon>
+                                                                    <FontIcon FontFamily="{StaticResource FontAwesome}" Glyph="&#xf046;" Margin="0,0,8,0" />
+                                                                </fwButton:FWButton.Icon>
+                                                            </fwButton:FWButton>
+
+                                                        </RelativePanel>
+
+                                                    </RelativePanel>
+
+
+                                                </StackPanel>
+
+                                            </RelativePanel>
+
+
+                                            <interactivity:Interaction.Behaviors>
+                                                <core:DataTriggerBehavior Binding="{Binding DataContext.IsFlyoutClosed, ElementName=RootPanel, Mode=OneWay}" ComparisonCondition="Equal" Value="True">
+                                                    <fwActions:CloseFlyoutAction />
+                                                </core:DataTriggerBehavior>
+                                            </interactivity:Interaction.Behaviors>
+                                        </Flyout>
+                                    </fwButton:FWButton.Flyout>
+                                </fwButton:FWButton>
+
+
+                            </RelativePanel>
+
+                        </Border>
+                    </fwComposition:CompositionShadow>
+
+                </DataTemplate>
+            </fwGrid:ResponsiveGridView.ItemTemplate>
+
+            <interactivity:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="ItemClick">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToShowPageCommand, Mode=OneWay}" />
+                </core:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+        </fwGrid:ResponsiveGridView>
+
+    </Grid>
+</Page>

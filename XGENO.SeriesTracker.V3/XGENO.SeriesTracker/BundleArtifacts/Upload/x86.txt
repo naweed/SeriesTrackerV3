@@ -1,0 +1,2 @@
+MainPackage=D:\z. Older VS Projects\VS 2016 Projects\XGENO.SeriesTracker.V3\XGENO.SeriesTracker\bin\x86\Release\Upload\XGENO.SeriesTracker_3.5.0.0_x86.appx
+SymbolPackage=D:\z. Older VS Projects\VS 2016 Projects\XGENO.SeriesTracker.V3\XGENO.SeriesTracker\bin\x86\Release\Upload\XGENO.SeriesTracker_3.5.0.0\XGENO.SeriesTracker_3.5.0.0_x86.appxsym

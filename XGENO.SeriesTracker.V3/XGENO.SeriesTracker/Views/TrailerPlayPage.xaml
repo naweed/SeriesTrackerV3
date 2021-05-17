@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="XGENO.SeriesTracker.Views.TrailerPlayPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:XGENO.SeriesTracker.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:XGENO.SeriesTracker.ViewModels"
+    xmlns:dm="using:XGENO.SeriesTracker.DataModels"
+    xmlns:fwComposition="using:XGENO.UWP.Controls.Composition"
+    xmlns:fwExtensions="using:XGENO.Framework.Extensions"
+    xmlns:fwControls="using:XGENO.Framework.Controls"
+    xmlns:fwRating="using:XGENO.UWP.Controls.RatingControl"
+    xmlns:fwGrid="using:XGENO.UWP.Controls.ResponsiveGrid"
+    xmlns:fwButton="using:XGENO.UWP.Controls.FWButton"
+    xmlns:fwImage="using:XGENO.UWP.Controls.Images"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:fwActions="using:XGENO.Framework.Behaviors"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+      <vm:TrailerPlayPageViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <Grid x:Name="RootPanel">
+      <!-- Trailer -->
+      <MediaElement x:Name="videoMediaElement" 
+                    AutoPlay="True"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    AreTransportControlsEnabled="True"
+                    Source="{Binding VideoPlayURL, Mode=OneWay}">
+        <MediaElement.TransportControls>
+          <MediaTransportControls IsCompact="True"/>
+        </MediaElement.TransportControls>
+      </MediaElement>      
+    </Grid>
+</Page>
+
+
